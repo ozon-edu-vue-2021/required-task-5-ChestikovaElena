@@ -9,6 +9,16 @@
             </router-link>
           </li>
           <li class="menu-item menu-item--teaps">
+            <router-link to="/Favorites">
+              <span>
+                Избранное
+              </span>
+              <span class="teaps">
+                {{ getFavoritesCount || 0 }}
+              </span>
+            </router-link>
+          </li>
+          <li class="menu-item menu-item--teaps">
             <router-link to="/Cart">
               <span>
                 Корзина
@@ -36,6 +46,7 @@ export default {
   name: "App",
   computed: {
     ...mapGetters('cart',['getTotalCount']),
+    ...mapGetters('products',['getFavoritesCount']),
     ...mapState('products',['data']),
   },
   methods: {
@@ -45,7 +56,6 @@ export default {
   async created() {
     await this.getProducts();
     this.data.map( async i => await this.addPrice(i));
-    console.log(this.data[0].price);
     this.addPriceSuccess();
   },
 };
@@ -90,7 +100,7 @@ p {
   margin: 0;
   padding: 20px 0;
   display: grid;
-  grid-template-columns: auto auto;
+  grid-template-columns: auto auto auto;
   grid-gap: 40px;
   justify-content: center;
 }
@@ -111,7 +121,7 @@ p {
 }
 
 .teaps {
-  background-color: #f91155;
+  background-color: tomato;
   border-radius: 8px;
   color: #fff;
   height: 16px;

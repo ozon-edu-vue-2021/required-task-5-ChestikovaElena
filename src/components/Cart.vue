@@ -63,39 +63,32 @@ export default {
     CartItem,
   },
   computed: {
-    ...mapState(
-      'cart',
-      ['selectedProducts']
-    ),
-    ...mapGetters(
-      'cart',
-      ['getTotalPrice', 'getTotalCount']
-    ),
+    ...mapState('cart',['selectedProducts']),
+    ...mapGetters('cart',['getTotalPrice', 'getTotalCount']),
     isButtonDisabled() {
       return !this.selectedProducts?.length
     }
   },
   methods: {
     placeOrder() {
-      let order = [];
-      this.selectedProducts.map(
-        i => order.push({
-          id: i.id,
-          dish: i.dish,
-          quantity: i.quantity,
-          price: i.price
-        })
-      )
-      alert(JSON.stringify(order));
+      if (!this.isButtonDisabled) {
+        let order = [];
+        this.selectedProducts.map(
+          i => order.push({
+            id: i.id,
+            dish: i.dish,
+            quantity: i.quantity,
+            price: i.price
+          })
+        )
+        alert(JSON.stringify(order));
+      }
     }
   }
 }
 </script>
 
 <style scoped>
-.cart-wrapper {
-}
-
 .cart-container {
   display: flex;
   gap: 2em;

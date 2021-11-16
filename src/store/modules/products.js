@@ -1,11 +1,17 @@
 import axios from "axios";
+import Vue from "vue";
 import {
   GET_PRODUCTS,
   GET_PRODUCTS_REQUEST,
   GET_PRODUCTS_SUCCESS,
   GET_PRODUCTS_FAILED,
 } from "../actions.js";
-import { ADD_PRICE, ADD_PRICE_SUCCESS } from "../mutations.js";
+import {
+  ADD_PRICE,
+  ADD_PRICE_SUCCESS,
+  ADD_TO_FAVORITES,
+  REMOVE_FROM_FAVORITES,
+} from "../mutations.js";
 
 const state = {
   data: [],
@@ -14,7 +20,14 @@ const state = {
   isAllProductsUpdate: false,
 };
 
-const getters = {};
+const getters = {
+  getFavorites: (state) => {
+    return state.data.filter((i) => i.isFavorited === true);
+  },
+  getFavoritesCount: (state) => {
+    return state.data.filter((i) => i.isFavorited === true)?.length ?? 0;
+  },
+};
 
 const actions = {
   async getProducts(context) {
@@ -54,11 +67,25 @@ const mutations = {
     };
     const price = getPrice(50, 250);
     if (item) {
-      item.price = price;
+      Vue.set(item, "price", price);
     }
   },
   [ADD_PRICE_SUCCESS](state) {
     state.isAllProductsUpdate = true;
+  },
+  [ADD_TO_FAVORITES](state, payload) {
+    const item = state.data.find((i) => i.id === payload.id);
+
+    if (item) {
+      Vue.set(item, "isFavorited", true);
+    }
+  },
+  [REMOVE_FROM_FAVORITES](state, payload) {
+    const item = state.data.find((i) => i.id === payload.id && i.isFavorited);
+
+    if (item) {
+      Vue.set(item, "isFavorited", false);
+    }
   },
 };
 

@@ -40,20 +40,12 @@ export default {
 </script>
 
 <style scoped>
-.catalog-wrapper {
-
-}
-
 .catalog {
   list-style: none;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   grid-gap: 2rem;
   padding: 0;
-}
-
-.catalog-item {
-
 }
 
 </style>

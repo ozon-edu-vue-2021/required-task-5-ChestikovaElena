@@ -6,6 +6,15 @@
         <p class="price">
           {{product.price}} p.
         </p>
+        <div
+          class="icon-wrapper icon-wrapper--heart"
+          :class="['icon-wrapper icon-wrapper--heart', {
+            'icon-wrapper icon-wrapper--heart-active': product.isFavorited
+          }]"
+          @click="clickOnHeart"
+        >
+          <Icon iconType="heart" />
+        </div>
         <div class="icon-wrapper">
           <Icon iconType="cart" />
           <span class="teaps" v-if="countOfProduct">
@@ -77,11 +86,24 @@ export default {
     },
   },
   methods: {
-    ...mapMutations("cart", ["addToCart", "removeFromCart"]),
-    ...mapMutations("products", ["addPrice"]),
+    ...mapMutations(
+      "cart",
+      ["addToCart", "removeFromCart"]
+    ),
+    ...mapMutations(
+      "products",
+      ["addPrice", "addToFavorites", "removeFromFavorites"]
+    ),
     updateCountOfProducts(payload) {
       this.countOfProductSelect = payload;
     },
+    clickOnHeart() {
+      if (this.product.isFavorited) {
+        this.removeFromFavorites(this.product);
+      } else {
+        this.addToFavorites(this.product);
+      }
+    }
   }
 
 }
@@ -102,6 +124,7 @@ export default {
 .row {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   width: 90%;
 }
 
@@ -114,8 +137,21 @@ export default {
   position: relative;
 }
 
+.icon-wrapper--heart {
+  fill:#001A34;
+}
+
+.icon-wrapper--heart:hover {
+  cursor: pointer;
+  fill: tomato;
+}
+
+.icon-wrapper--heart-active {
+  fill: tomato;
+}
+
 .teaps {
-  background-color: #f91155;
+  background-color: tomato;
   border-radius: 8px;
   color: #fff;
   height: 16px;
@@ -149,7 +185,7 @@ export default {
   align-self: start;
   padding: 8px 16px;
   width: 100px;
-  background-color: #005bff;
+  background-color: royalblue;
   color: #fff;
   font-weight: 700;
   border-radius: 6px;

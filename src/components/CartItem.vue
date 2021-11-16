@@ -6,10 +6,18 @@
       <p class="description">{{ product.description }}</p>
       <div class="row">
         <button
+          v-if="!isFavorited"
           class="button"
-          @click="addToCart(product)"
+          @click="clickAddToFavorites"
         >
           В избранное
+        </button>
+        <button
+          v-if="isFavorited"
+          class="button button--accent"
+          @click="clickRemoveFromFavorites"
+        >
+          В избранном
         </button>
         <button
           class="button"
@@ -34,7 +42,7 @@
 </template>
 
 <script>
-import { mapMutations } from "vuex";
+import { mapGetters, mapMutations } from "vuex";
 import Select from "./Select.vue";
 
 export default {
@@ -51,15 +59,38 @@ export default {
   data() {
     return {
       countOfProducts: 1,
+      isFavorited: false,
     }
   },
   computed: {
+    ...mapGetters('products',['getFavorites']),
+  },
+  mounted() {
+    this.updateIsFavorited();
   },
   methods: {
     ...mapMutations("cart", ["addToCart", "removeAllFromCart"]),
+    ...mapMutations("products", ["addToFavorites", "removeFromFavorites"]),
     updateCountOfProducts(payload) {
       this.addToCart({product:this.product, count: payload});
       this.countOfProducts = payload;
+    },
+    clickAddToFavorites() {
+      this.addToFavorites(this.product);
+      this.isFavorited = true;
+    },
+    clickRemoveFromFavorites() {
+      this.removeFromFavorites(this.product);
+      this.isFavorited = false;
+    },
+    updateIsFavorited() {
+      const item = this.getFavorites.find( i => i.id === this.product.id);
+      
+      if (item) {
+        this.isFavorited = true;
+      } else {
+        this.isFavorited = false;
+      }
     }
   }
 
@@ -111,6 +142,10 @@ export default {
   border-radius: 6px;
   border: none;
   cursor: pointer;
+}
+
+.button--accent {
+  color: tomato;
 }
 
 .price {
