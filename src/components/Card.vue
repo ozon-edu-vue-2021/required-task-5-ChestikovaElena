@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <img src="../assets/images/6123150777.webp" />
+    <img :src="require(`../assets/images/${product.image}.webp`)" />
     <div class="content">
       <div class="row">
         <p class="price">
@@ -32,6 +32,7 @@
             В корзину
           </button>
           <button
+            v-if="countOfProduct"
             class="button"
             @click="removeFromCart(product)"
           >
@@ -64,7 +65,7 @@ export default {
     product: {
       type: Object,
       required: true,
-    }
+    },
   },
   data() {
     return {
@@ -172,6 +173,7 @@ export default {
 .control {
   display: flex;
   justify-content: space-between;
+  height: 110px;
 }
 
 .column {

@@ -6,10 +6,10 @@
     >
       <li
         v-for="product in data"
-        :key="product.id"
+        :key="product.uid"
         class="catalog-item"
       >
-        <Card :product="product" />
+        <Card :product="product"/>
       </li>
     </ul>
     <div v-else-if="productsRequest && isAllProductsUpdate">
@@ -29,6 +29,11 @@ export default {
   name: 'Catalog',
   components: {
     Card,
+  },
+  data() {
+    return {
+      images: null,
+    }
   },
   computed: {
     ...mapState(

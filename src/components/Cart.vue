@@ -11,7 +11,7 @@
         >
           <li
             v-for="product in selectedProducts"
-            :key="product.id"
+            :key="product.uid"
             class="cart-item"
           >
             <CartItem :product="product" />

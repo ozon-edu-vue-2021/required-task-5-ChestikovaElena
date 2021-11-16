@@ -51,11 +51,11 @@ export default {
   },
   methods: {
     ...mapActions("products", ["getProducts"]),
-    ...mapMutations("products", ["addPrice", "addPriceSuccess"]),
+    ...mapMutations("products", ["addPriceImage", "addPriceSuccess"]),
   },
   async created() {
     await this.getProducts();
-    this.data.map( async i => await this.addPrice(i));
+    this.data.map( async i => await this.addPriceImage(i));
     this.addPriceSuccess();
   },
 };
@@ -73,7 +73,7 @@ export default {
 html,
 body,
 #app {
-  height: 100%;
+  min-height: 100vh;
 }
 
 * {

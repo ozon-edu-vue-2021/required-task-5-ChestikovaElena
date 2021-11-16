@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <img width="100" src="../assets/images/6123150777.webp" />
+    <img width="100" :src="require(`../assets/images/${product.image}.webp`)" />
     <div class="column">
       <p class="dish">{{ product.dish }}</p>
       <p class="description">{{ product.description }}</p>
